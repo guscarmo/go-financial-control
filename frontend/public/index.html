@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Controle Financeiro</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Controle Financeiro</h1>
+
+  <!-- Formulário para lançar transações -->
+  <form id="transaction-form">
+    <label for="date">Data:</label>
+    <input type="date" id="date" required>
+
+    <label for="category">Categoria:</label>
+    <input type="text" id="category" placeholder="Ex.: Alimentação" required>
+
+    <label for="description">Descrição:</label>
+    <input type="text" id="description" placeholder="Ex.: Compra no mercado" required>
+
+    <label for="amount">Valor:</label>
+    <input type="number" id="amount" placeholder="Ex.: 100.50" required>
+
+    <label for="typ">Tipo:</label>
+    <input type="text" id="typ" placeholder="Ex.: Ganho/Custo" required>
+
+    <label for="payment">Forma de pagamento:</label>
+    <input type="text" id="payment" placeholder="Ex.: Débito/Crédito/Pix" required>
+
+    <label for="obs">Observação:</label>
+    <input type="text" id="obs">
+
+    <button type="submit">Adicionar Transação</button>
+  </form>
+
+  <!-- Tabela para exibir as transações -->
+  <h2>Transações</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Descrição</th>
+        <th>Valor</th>
+        <th>Data</th>
+      </tr>
+    </thead>
+    <tbody id="transactions-table">
+      <!-- As transações serão inseridas aqui dinamicamente -->
+    </tbody>
+  </table>
+
+  <script src="script.js"></script>
+</body>
+</html>
