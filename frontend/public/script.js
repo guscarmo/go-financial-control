@@ -17,7 +17,8 @@ async function fetchTransactions() {
         transactions.forEach(transaction => {
             if (transaction.amount !== undefined) {
                 console.log(`Descrição: ${transaction.description}`);
-                console.log(`Valor: ${transaction.amount.toFixed(2)}`); // Aqui usamos toFixed corretamente
+                console.log(`Valor: ${transaction.amount.toFixed(2)}`);
+                console.log(`Date: ${transaction.date}`); // Aqui usamos toFixed corretamente
                 displayTransactions(transactions);
             } else {
                 console.warn("Transação sem valor:", transaction);
@@ -43,7 +44,7 @@ function displayTransactions(transactions) {
     row.innerHTML = `
       <td>${transaction.description}</td>
       <td>${transaction.amount.toFixed(2)}</td>
-      <td>${new Date(transaction.data).toLocaleDateString()}</td>
+      <td>${new Date(transaction.date).toLocaleDateString()}</td>
     `;
 
     transactionsTable.appendChild(row);
@@ -75,18 +76,18 @@ form.addEventListener("submit", (event) => {
   const amount = parseFloat(document.getElementById("amount").value);
   const date = document.getElementById("date").value;
   const category = document.getElementById("category").value;
-  const type = document.getElementById("type").value;
+  const typ = document.getElementById("typ").value;
   const payment = document.getElementById("payment").value;
   const obs = document.getElementById("obs").value;
 
 
-  if (!description || !amount || !date || !category || !type || !payment || !obs ) {
+  if (!description || !amount || !date || !category || !typ || !payment || !obs ) {
     alert("Preencha todos os campos!");
     return;
   }
 
   // Cria o objeto da transação
-  const transaction = { description, category,  amount, type, payment, obs, date };
+  const transaction = { description, category,  amount, typ, payment, obs, date };
 
   // Envia a transação para o backend
   addTransaction(transaction);
