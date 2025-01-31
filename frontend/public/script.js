@@ -1,5 +1,6 @@
 // URL da API do backend
-const API_URL = "http://localhost:8080/transacoes";
+const API_URL = "http://localhost:8080";
+const categorySelect = document.getElementById("category"); // Dropdown de categorias
 
 // Referências aos elementos HTML
 const form = document.getElementById("transaction-form");
@@ -8,7 +9,7 @@ const transactionsTable = document.getElementById("transactions-table");
 // Função para buscar e exibir transações
 async function fetchTransactions() {
   try {
-    const response = await fetch(API_URL);
+    const response = await fetch(`${API_URL}/transacoes`);
     if (!response.ok) throw new Error("Erro ao buscar transações.");
 
     const transactions = await response.json();
@@ -54,7 +55,7 @@ function displayTransactions(transactions) {
 // Função para adicionar uma nova transação
 async function addTransaction(transaction) {
   try {
-    const response = await fetch(API_URL, {
+    const response = await fetch(`${API_URL}/transacoes`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(transaction),
@@ -96,5 +97,27 @@ form.addEventListener("submit", (event) => {
   form.reset();
 });
 
+// Função para buscar categorias e preencher o dropdown
+async function fetchCategories() {
+  try {
+    const response = await fetch(`${API_URL}/categorias`);
+    if (!response.ok) throw new Error("Erro ao buscar categorias.");
+
+    const categories = await response.json();
+
+    // Preenche o dropdown com as categorias
+    categorySelect.innerHTML = ""; // Limpa o dropdown
+    categories.forEach((category) => {
+      const option = document.createElement("option");
+      option.value = category.id;
+      option.textContent = category.category;
+      categorySelect.appendChild(option);
+    });
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
 // Carrega as transações ao abrir a página
 fetchTransactions();
+fetchCategories();
