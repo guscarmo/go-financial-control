@@ -13,5 +13,7 @@ func SetupRoutes(router *gin.Engine) {
 	router.GET("/transacoes", handlers.ListTransacoes)
 	router.GET("/transacoes/resumo", handlers.GetResumo)
 
+	router.GET("/categorias", handlers.GetCategorias)
+
 	// return router
 }
