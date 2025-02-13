@@ -28,3 +28,20 @@ func GetCategorias(c *gin.Context) {
 
 	c.JSON(http.StatusOK, categorias)
 }
+
+func AddCategoria(c *gin.Context) {
+	var category models.Categoria
+	if err := c.ShouldBindJSON(&category); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	_, err := config.DB.Exec("INSERT INTO categorias (categoria) VALUES ($1)",
+		category.Category)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao inserir categoria"})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"message": "Categoria criada com sucesso"})
+}
