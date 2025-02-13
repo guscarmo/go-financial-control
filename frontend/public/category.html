@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Categorias - Controle Financeiro</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Adicionar categorias</h1>
+
+  <!-- Formulário para lançar transações -->
+  <form id="category-form">
+    <label for="description">Categoria:</label>
+    <input type="text" id="category" required>
+
+    <button type="submit">Adicionar</button>
+  </form>
+
+  <!-- Tabela para exibir as categorias cadastradas -->
+  <h2>Categorias cadastradas</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Nome</th>
+      </tr>
+    </thead>
+    <tbody id="category-table">
+      <!-- As categorias serão inseridas aqui dinamicamente -->
+    </tbody>
+  </table>
+
+  <script src="js/category.js"></script>
+</body>
+</html>
