@@ -82,7 +82,7 @@ form.addEventListener("submit", (event) => {
   const obs = document.getElementById("obs").value;
 
 
-  if (!description || !amount || !date || !category || !typ || !payment || !obs ) {
+  if (!description || !amount || !date || !category || !typ || !payment) {
     alert("Preencha todos os campos!");
     return;
   }
