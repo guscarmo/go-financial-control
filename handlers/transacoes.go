@@ -4,6 +4,8 @@ import (
 	"go-financial-control/config"
 	"go-financial-control/models"
 	"net/http"
+	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -67,4 +69,83 @@ func GetResumo(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, resumo)
+}
+
+func GetTransacoes(c *gin.Context) {
+	campos := c.Query("campos")
+	dateStart := c.Query("date-start")
+	dateEnd := c.Query("date-end")
+
+	var startDate, endDate string
+	var err error
+
+	if dateStart != "" {
+		_, err = time.Parse("2006-01-02", dateStart)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Data inicial inválida"})
+			return
+		}
+		startDate = dateStart
+	}
+
+	if dateEnd != "" {
+		_, err = time.Parse("2006-01-02", dateEnd)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Data final inválida"})
+			return
+		}
+		endDate = dateEnd
+	}
+
+	if campos == "" {
+		campos = "id, descricao, categoria, valor, tipo, forma_pagamento, observacao, data"
+	}
+
+	query := "SELECT " + campos + " FROM transacoes WHERE 1=1"
+	var args []interface{}
+	argCount := 1
+
+	if startDate != "" {
+		query += " AND data >= $" + strconv.Itoa(argCount)
+		args = append(args, startDate)
+		argCount++
+	}
+
+	if endDate != "" {
+		query += " AND data <= $" + strconv.Itoa(argCount)
+		args = append(args, endDate)
+		argCount++
+	}
+
+	rows, err := config.DB.Query(query, args...)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao buscar transações"})
+		return
+	}
+	defer rows.Close()
+
+	var transacoes []map[string]interface{}
+	columns, _ := rows.Columns()
+	values := make([]interface{}, len(columns))
+	valuePointers := make([]interface{}, len(columns))
+
+	for rows.Next() {
+		for i := range columns {
+			valuePointers[i] = &values[i]
+		}
+
+		if err := rows.Scan(valuePointers...); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao processar dados"})
+			return
+		}
+
+		item := make(map[string]interface{})
+
+		for i, col := range columns {
+			item[col] = values[i]
+		}
+		transacoes = append(transacoes, item)
+	}
+
+	c.JSON(http.StatusOK, transacoes)
 }
