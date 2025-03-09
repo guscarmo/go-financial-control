@@ -39,7 +39,7 @@ func ListTransacoes(c *gin.Context) {
 	for rows.Next() {
 		var t models.Transacao
 		if err := rows.Scan(&t.ID, &t.Description, &t.Category, &t.Amount, &t.Typ, &t.Payment, &t.Obs, &t.Date); err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao processar transações"})
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao processar transações: " + err.Error()})
 			return
 		}
 		transacoes = append(transacoes, t)
