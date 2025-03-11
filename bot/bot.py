@@ -39,7 +39,7 @@ async def process_message(message: types.Message):
         if response.status_code == 201:
             await message.reply(f"Transação registrada: R${amount} em {description} ({category}) no dia {date}.")
         else:
-            await message.reply("Erro ao registrar transação.")
+            await message.reply(f"Erro ao registrar transação. {response.status_code} erro: {response.text}")
     else:
         await message.reply("Não consegui entender. Tente começar pela data exemplo: 'Ontem gastei 150 no mercado'.")
 
