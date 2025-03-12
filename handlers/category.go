@@ -36,7 +36,7 @@ func AddCategoria(c *gin.Context) {
 		return
 	}
 
-	_, err := config.DB.Exec("INSERT INTO categorias (categoria) VALUES ($1)",
+	_, err := config.DB.Exec("INSERT INTO categorias (categoria) VALUES (LOWER($1))",
 		category.Category)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao inserir categoria"})

@@ -17,10 +17,10 @@ func CreateTransacao(c *gin.Context) {
 		return
 	}
 
-	_, err := config.DB.Exec("INSERT INTO transacoes (descricao, categoria, valor, tipo, forma_pagamento, observacao, data) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+	_, err := config.DB.Exec("INSERT INTO transacoes (descricao, categoria, valor, tipo, forma_pagamento, observacao, data) VALUES (LOWER($1), LOWER($2), $3, LOWER($4), LOWER($5), LOWER($6), $7)",
 		transacao.Description, transacao.Category, transacao.Amount, transacao.Typ, transacao.Payment, transacao.Obs, transacao.Date)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao inserir transação"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao inserir transação: " + err.Error()})
 		return
 	}
 
