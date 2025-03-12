@@ -2,7 +2,7 @@ import re
 import dateparser
 
 # List of possibles categories
-CATEGORIES = ["mercado", "poupança", "cartão", "aluguel", "combustível", "lazer", "salário", "investimento", "saúde", "educação", "transporte", "vestuário", "outros", "assinatura"]
+CATEGORIES = ["mercado", "poupança", "cartão", "aluguel", "combustível", "lazer", "salário", "investimento", "saúde", "educação", "transporte", "vestuário", "outros", "assinatura", "alimentação"]
 
 # List of possibles type "ganho"
 TYPES_GANHO = ["ganho", "ganhei", "recebi"]
